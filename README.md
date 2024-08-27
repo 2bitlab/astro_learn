@@ -1,71 +1,38 @@
 # Astro Starter Kit: Blog
 
-```sh
-npm create astro@latest -- --template blog
+## start up
+
+根据 [.env.example](.env.example) 建立 `.env` 文件
+
+根据需要整个项目替换 `astro-ai`
+
+```bash
+pnpm i
+pnpm db:dev # 启动docker 的数据库和redis, 把数据库结构的orm代码生成, 初始化数据库表
+pnpm dev
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/blog)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/blog)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/blog/devcontainer.json)
+一些系统级的第三方服务配置，请在系统运行时在 [config](http://localhost:3000/lab/config) 中配置
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+本地修改了数据结构后运行
 
-![blog](https://github.com/withastro/astro/assets/2244813/ff10799f-a816-4703-b967-c78997e8323d)
-
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+```bash
+pnpm db:update # 修改数据库的数据结构
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+当要上测试库的时候如果这次有修改数据结构需要先生成数据结构迁移脚本
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```bash
+pnpm db:migrate:dev # 修改数据库的数据结构
+```
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+上线时如果这次有修改数据结构需要在线上数据库执行
 
-Any static assets, like images, can be placed in the `public/` directory.
+```bash
+pnpm db:migrate:deploy # 把数据结构迁移脚本运行
+```
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+这步应该在`cicd`中自动执行，如果已实现请删除
 
 ## 常见问题
 
@@ -74,3 +41,15 @@ This theme is based off of the lovely [Bear Blog](https://github.com/HermanMarti
 ```bash
 export http_proxy="http://127.0.0.1:1087"; export HTTP_PROXY="http://127.0.0.1:1087"; export https_proxy="http://127.0.0.1:1087"; export HTTPS_PROXY="http://127.0.0.1:1087"
 ```
+
+## 相关资料
+
+[astro](https://docs.astro.build/zh-cn/getting-started/)
+
+[vue3](https://cn.vuejs.org)
+
+[prisma](https://www.prisma.io/) - Prisma provides the best experience for your team to work and interact with databases. Even complex things like connection pooling, caching, real-time database subscriptions are a breeze with our products.
+
+[zenstack](https://zenstack.dev/) - A TypeScript toolkit that enhances Prisma ORM with flexible Authorization and auto-generated, type-safe APIs/hooks, simplifying full-stack development
+
+[zod](https://zod.dev/) TypeScript-first schema validation with static type inference

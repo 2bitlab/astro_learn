@@ -22,3 +22,23 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+
+# Local env files
+.env
+.env.*
+!.env.example
+!deploy*/**/*.env
+
+nginx
+!deploy*/**/nginx
+
+redis
+!src*/**/redis
+!deploy*/**/redis
+
+Dockerfile
+!deploy*/**/Dockerfile
+
+docker-compose.yml
+!deploy*/**/docker-compose.yml

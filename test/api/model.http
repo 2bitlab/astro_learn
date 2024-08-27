@@ -1,0 +1,9 @@
+@host = http://localhost:4321
+
+POST {{host}}/api/user/findMany.json
+
+{
+
+}
+
+###

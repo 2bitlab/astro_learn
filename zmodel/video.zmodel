@@ -1,0 +1,89 @@
+import "base"
+import "user"
+import "balance"
+
+model Video extends Base {
+  url String
+  title String // 标题
+  summary String @db.Text // 简介
+  coverUrl String // 封面地址
+
+  mulQualityVideos Json
+
+  publishedAt DateTime @default(now())
+
+  videoTypeId String
+  videoType VideoType @relation(fields: [videoTypeId], references: [id], onDelete: Cascade)
+
+  videoTags VideoTag[]
+
+  videoSetId String?
+  videoSet VideoSet? @relation(fields: [videoSetId], references: [id])
+
+  //
+  price Decimal @default(0) // 售价
+  audioUrl String?
+  copywritingUrl String? // 文案
+  copywriting String? @db.MediumText // 文案
+
+  // 相关
+  videoOrders VideoOrder[]
+}
+
+model VideoType {
+  id String @id @default(cuid())
+  label String
+
+  parentId String?
+  parent VideoType? @relation("VideoTypeRelation", fields: [parentId], references: [id])
+  children VideoType[] @relation("VideoTypeRelation")
+
+  videos Video[]
+}
+
+model VideoTag {
+  id String @id @default(cuid())
+  label String @unique
+
+  videos Video[]
+}
+
+model VideoSet {
+  id String @id @default(cuid())
+  label String
+
+  videos Video[]
+}
+
+
+enum VideoOrderStatus {
+  WAIT_HANDEL // 等接单
+  PROCESSING // 已接单，处理中
+  WAIT_CONFIRM // 已处理，等确认
+  DONE // 已确认
+  CANCEL // 已取消
+}
+
+model VideoOrder extends Base {
+
+  videoId String
+  video Video @relation(fields: [videoId], references: [id])
+
+  handlerId String?
+  handler User? @relation("VideoTaskHandler", fields: [handlerId], references: [id])
+
+  handleAt DateTime?
+
+  status VideoOrderStatus @default(WAIT_HANDEL)
+
+  price Decimal @default(0)
+
+  finishedVideoUrl String? // 成品视频地址
+  finishedAt DateTime? // 成品视频时间
+
+  doneAt DateTime? // 客户确认时间
+
+  balanceLogId String @unique
+  balanceLog BalanceLog @relation(fields: [balanceLogId], references: [id])
+
+}

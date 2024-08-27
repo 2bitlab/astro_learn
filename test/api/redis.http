@@ -1,0 +1,28 @@
+@host = http://localhost:4321
+
+// 获取 key 为 M12 的值
+GET {{host}}/api/redis/M12.json
+
+###
+
+// 删除 key 为 M12 的值
+DELETE {{host}}/api/redis/M12.json
+
+###
+
+// 设置 key 为 M12 的值, 400 Value is required
+POST {{host}}/api/redis/M12.json
+
+{
+  "a": 1
+}
+
+
+###
+
+// 设置 key 为 M12 的值
+POST {{host}}/api/redis/M12.json
+
+{
+  "value": 1
+}

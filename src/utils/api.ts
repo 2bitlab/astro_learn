@@ -1,10 +1,8 @@
+import { parse } from 'qs'
+
 export const resJson = (
-  {
-    data,
-    message = 'success',
-    code = 0,
-  }: {
-    data: any
+  props?: {
+    data?: any
     message?: string
     code?: number
   },
@@ -12,9 +10,9 @@ export const resJson = (
 ) => {
   return new Response(
     JSON.stringify({
-      message,
-      data,
-      code,
+      message: 'success',
+      code: 0,
+      ...(props || {}),
     }),
     {
       status: 200,
@@ -24,4 +22,35 @@ export const resJson = (
       ...(init || {}),
     },
   )
+}
+
+export const resMissProps = (message: string) => {
+  return resJson(
+    {
+      message,
+    },
+    {
+      status: 400,
+    },
+  )
+}
+
+export const resError = (message: string) => {
+  return resJson(
+    {
+      message,
+    },
+    {
+      status: 500,
+    },
+  )
+}
+
+export const getQuery = <T>(request: Request): T => {
+  const [, query] = request.url.split('?')
+  return parse(query || '') as T
+}
+
+export const getBody = async <T>(request: Request): Promise<T> => {
+  return (await request.json()) as T
 }
