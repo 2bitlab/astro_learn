@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro'
-import { resJson, resMissProps, getBody } from '@utils/api'
-import { getRedis } from '@service/database'
+import { resJson, resMissProps, getBody } from '@/utils/api'
+import { getRedis } from '@/service/database'
 
 export const GET: APIRoute<any, { key: string }> = async ({ params, request }) => {
   const { key } = params

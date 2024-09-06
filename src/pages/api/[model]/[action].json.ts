@@ -1,8 +1,8 @@
 import { z } from 'astro:content'
 
 import type { APIRoute } from 'astro'
-import { resJson, getBody, resError } from '@utils/api'
-import { getPrisma } from '@service/database'
+import { resJson, getBody, resError } from '@/utils/api'
+import { getPrisma } from '@/service/database'
 
 const ActionBodySchema = z.object({
   where: z.unknown().optional(),
